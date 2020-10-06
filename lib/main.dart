@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:training_app/theme.dart';
-import 'package:training_app/views/home/home.dart';
+import 'package:training_app/views/home/diaryhome.dart';
 
 void main() {
   runApp(DearDiaryApp());
@@ -18,7 +18,7 @@ class DearDiaryApp extends StatelessWidget {
       title: 'DearDiary',
       initialRoute: '/',
       routes: {
-        "/": (context) => HomePage(),
+        "/": (context) => DiaryHome(),
       },
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:training_app/constants.dart';
 
 class DiaryCard extends StatelessWidget {
   final String title;
@@ -20,7 +19,7 @@ class DiaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // height: 50,
-      margin: EdgeInsets.symmetric(vertical: 4, horizontal: 7),
+      margin: EdgeInsets.symmetric(vertical: 4,),
       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),

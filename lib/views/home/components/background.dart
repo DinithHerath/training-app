@@ -18,7 +18,6 @@ class Background extends StatelessWidget {
         Constants.kBackgroundSvg,
         color: Color(0xFF11A1E4),
         fit: BoxFit.cover,
-        clipBehavior: Clip.antiAlias,
       ),
     );
   }
