@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:training_app/constants.dart';
 import 'package:training_app/models/diaryData.dart';
@@ -18,7 +19,8 @@ class DiaryForm extends StatefulWidget {
 class _DiaryFormState extends State<DiaryForm> {
   final _StyleSheet styleSheet = _StyleSheet();
   final formKey = new GlobalKey<FormState>();
-  FocusNode _focusNode = new FocusNode();
+  final FocusNode focusTitle = new FocusNode();
+  final FocusNode focusDescription = new FocusNode();
 
   String title = '';
   String subtitle = 'James';
@@ -65,7 +67,8 @@ class _DiaryFormState extends State<DiaryForm> {
             child: Padding(
               padding: const EdgeInsets.only(left: 8, top: 4, right: 4, bottom: 4),
               child: TextFormField(
-                focusNode: _focusNode,
+                focusNode: focusTitle,
+                textInputAction: TextInputAction.next,
                 maxLines: 1,
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
@@ -79,7 +82,11 @@ class _DiaryFormState extends State<DiaryForm> {
                 onSaved: (value) => title = value.trim(), 
                 onTap: () {
                   widget.tappedText();
-                }   
+                },
+                onFieldSubmitted: (value) {
+                  focusTitle.unfocus();
+                  FocusScope.of(context).requestFocus(focusDescription);
+                },   
               ),
             ),
           ),
@@ -98,6 +105,8 @@ class _DiaryFormState extends State<DiaryForm> {
               padding: const EdgeInsets.only(left: 8, top: 4, right: 4, bottom: 4),
               child: TextFormField(
                 maxLines: 6,
+                focusNode: focusDescription,
+                textInputAction: TextInputAction.done,
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
                   border: InputBorder.none,
@@ -108,6 +117,7 @@ class _DiaryFormState extends State<DiaryForm> {
                 ),
                 validator: (value) => value.isEmpty ? 'Missing description.' : null,
                 onSaved: (value) => description = value.trim(), 
+                onFieldSubmitted: (value) => focusDescription.unfocus(),
               ),
             ),
           ),
@@ -126,9 +136,7 @@ class _DiaryFormState extends State<DiaryForm> {
                 onTap: () {
                   if(validateAndSave()) {
                     saveEntry();
-                    resetForm(); 
-                    _focusNode.unfocus();
-                    widget.tappedText();
+                    resetForm();
                   }
                 },
                 child: Padding(

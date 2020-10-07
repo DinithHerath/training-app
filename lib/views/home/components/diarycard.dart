@@ -18,7 +18,6 @@ class DiaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // height: 50,
       margin: EdgeInsets.symmetric(vertical: 4,),
       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       decoration: BoxDecoration(

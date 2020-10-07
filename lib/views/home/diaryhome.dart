@@ -15,7 +15,7 @@ class DiaryHome extends StatefulWidget {
 class _DiaryHomeState extends State<DiaryHome> {
   final _StyleSheet styleSheet = _StyleSheet();
   List<DiaryCard> diaries = [];
-  bool hide = false;
+  bool hide = true;
 
   Future<void> loadDiaries() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -47,7 +47,10 @@ class _DiaryHomeState extends State<DiaryHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
-        onTap: () => setState(() {hide = true;}),
+        onTap: () {
+         setState(() {hide = true;});
+         FocusScope.of(context).unfocus();
+        },  
         child: Stack(
           children: [
             Background(),
@@ -63,6 +66,7 @@ class _DiaryHomeState extends State<DiaryHome> {
                 DiaryForm(
                   onSubmit: (int counter) {
                     loadRecentDiary(counter);
+                    setState(() {hide = true;});
                   },
                   hide: hide,
                   tappedText: () => setState(() {hide = false;}),
