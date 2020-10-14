@@ -1,38 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:training_app/constants.dart';
 
-class DiaryCard extends StatelessWidget {
+class DiaryCard extends StatefulWidget {
   final String title;
   final String subtitle;
   final String description;
+  final DateTime created;
   final Color cardColor;
-  final _StyleSheet styleSheet = _StyleSheet();
 
   DiaryCard({
     Key key,
     @required this.title,
     @required this.subtitle,
     @required this.description,
-    @required this.cardColor
+    @required this.created,
+    this.cardColor,
   }) : super(key: key);
+
+  @override
+  _DiaryCardState createState() => _DiaryCardState();
+}
+
+class _DiaryCardState extends State<DiaryCard> {
+  final _StyleSheet styleSheet = _StyleSheet();
+  bool showMore = false;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 4,),
+      width: MediaQuery.of(context).size.width - 20,
+      margin: EdgeInsets.symmetric(
+        vertical: 4,
+      ),
       padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: cardColor,
+        color: widget.cardColor ?? Constants.kCardBackground,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: styleSheet._titleText, maxLines: 2, overflow: TextOverflow.ellipsis,),
-          Text(subtitle, style: styleSheet._subtitleText, maxLines: 1, overflow: TextOverflow.ellipsis,),
-          SizedBox(height: 12,),
-          Text(description, style: styleSheet._descriptionText, maxLines: 3, overflow: TextOverflow.ellipsis,),
+          Text(
+            widget.title,
+            style: styleSheet._titleText,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          Text(
+            widget.subtitle,
+            style: styleSheet._subtitleText,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          Text(
+            widget.description,
+            style: styleSheet._descriptionText,
+            maxLines: showMore ? 6 : 3,
+            overflow: TextOverflow.ellipsis,
+          ),
           Container(
-            margin: EdgeInsets.only(top: 16,),
+            margin: EdgeInsets.only(
+              top: 16,
+            ),
             height: 30,
             child: Material(
               borderRadius: BorderRadius.circular(15),
@@ -40,12 +72,18 @@ class DiaryCard extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 splashColor: Color(0xFF89ADBD),
+                splashFactory: InkRipple.splashFactory,
                 highlightColor: Colors.transparent,
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                  child: Text('SHOW MORE', style: styleSheet._buttonText,),
+                  child: Text(
+                    !showMore ? 'SHOW MORE' : 'SHOW LESS',
+                    style: styleSheet._buttonText,
+                  ),
                 ),
-                onTap: () {},
+                onTap: () => setState(() {
+                  showMore = !showMore;
+                }),
               ),
             ),
           )

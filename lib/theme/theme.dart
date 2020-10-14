@@ -7,6 +7,5 @@ ThemeData buildThemeData() {
     accentColor: Colors.blue,
     scaffoldBackgroundColor: Color(0xFFB3D4FC),
     canvasColor: Colors.transparent,
-    
   );
 }
